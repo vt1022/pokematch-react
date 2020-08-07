@@ -1,0 +1,88 @@
+.main {
+  @include flexCenter();
+  flex-direction: column;
+  height: calc( 100vh - 70px );
+
+  &__cards-container {
+    @include flexCenter();
+    flex-wrap: wrap;
+
+    &__inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border: 4px solid $secondaryColor;
+      border-radius: 1rem;
+      text-align: center;
+      transition: all 0.6s ease;
+      transform-style: preserve-3d;
+
+      &:focus .main__cards-container__card__front {
+          background: $primaryColor;
+      }
+    }
+
+    &__card {
+      flex: 0 1 $squareCardSize;
+      height: $squareCardSize;
+      width: $squareCardSize;
+      margin: 0.3em;
+      background-color: transparent;
+      transition: all 0.6s ease;
+      filter: drop-shadow(-2em 1em 1em transparent);
+      perspective: 1000px;
+
+      &__front, 
+      &__back {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 0.5rem;
+        transition: all 0.6s ease;
+        backface-visibility: hidden;
+      }
+
+      &__front {
+        display: flex;
+        justify-content: center;
+        background: $accentColor;
+
+        img {
+          width: 50%;
+          height: 50%;
+          margin: auto 0;
+        }
+      }
+
+      &__back {
+        @include fontSize(15);
+        background: lighten($color: $accentColor, $amount: 65);
+        color: $accentColor;
+        text-align: center;
+        transform: rotateY(180deg);
+      }
+
+      &__image {
+        height: 100%;
+        width: 100%;
+      }
+
+      &:hover,
+      &:focus-within {
+        transform: translate(4px, -4px) rotateY(15deg);
+        filter: drop-shadow(-3em 2em 1em rgba(12, 10, 10, 0.8));
+        z-index: 2;
+      }
+    }
+  }
+
+  .flip-card {
+    transform: rotateY(180deg);
+  }
+
+  .matched {
+    background-color: $secondaryColor;
+  }
+}

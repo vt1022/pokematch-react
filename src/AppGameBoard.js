@@ -16,8 +16,8 @@ const AppGameBoard = (props) => {
         // get all the pokemon names and image urls
         for (let i = 1; i < 152; i++) {
           const pokemon = await axios(`https://pokeapi.co/api/v2/pokemon/${i}`);
-          const [id, name, image] = [pokemon.data.id, pokemon.data.name, pokemon.data.sprites.front_default];
-          pokemons.push({id, name, image});
+          const {id, name, sprites} = pokemon.data;
+          pokemons.push({id, name, sprites});
         }
         // shuffle the pokemons:
         fisherYatesShuffle(pokemons);
@@ -35,7 +35,7 @@ const AppGameBoard = (props) => {
     <div className="AppGameBoard">
       <h1>PokeMatch Game Board</h1>
       {
-        pokemonList.map((pokemon) => <li key={pokemon.id}>{pokemon.name}</li>)
+        pokemonList.map((pokemon) => <li key={pokemon.id}><p>{pokemon.name}</p></li>)
       }
     </div>
   )

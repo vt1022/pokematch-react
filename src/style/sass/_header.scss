@@ -1,0 +1,102 @@
+.header {
+    position: static;
+    max-width: calc( #{$squareCardSize} * 5 + 80px );
+    height: 60px;
+    padding: 20px 0 0;
+    margin: 0 auto;
+    margin-bottom: 10px;
+  
+  &__list {
+    @include flexCenter();
+    justify-content: space-around;
+    width: 100%;
+    padding-left: 50px;
+
+    &::after {
+      content: '';
+      position: absolute;
+    }
+
+    &__item__timer,
+    &__item__reset span {
+      @include fontSans(30, 400, $primaryBlack);
+      display: inline-block;
+      height: 1.5em;
+      width: 100px;
+      padding: .1em .2em;
+      border: .1em solid $secondaryBlack;
+      border-radius: .2em;
+      margin: 0;
+
+      background: $primaryWhite;
+      text-align: right;
+      letter-spacing: -.1em;
+      text-transform: uppercase;
+    }
+
+    &__item__reset span {
+      width: auto;
+      transition: 0.3s;
+    }
+  }
+
+  &__list__item__reset {
+    @include flexCenter();
+    position: relative;
+
+    &:focus span,
+    &:hover span {
+      outline: none;
+      color: $accentColor;
+      background: $secondaryColor;
+    }
+
+    &:focus &__arrow,
+    &:hover &__arrow  {
+      border: 4px solid $secondaryWhite;
+      background: #29AAFD;
+      transform: rotate(calc(360deg - 45deg));
+    }
+
+    &:focus &__arrow::before,
+    &:hover &__arrow::before  {
+      border-left: 0px solid $primaryWhite;
+      border-top: 0px solid transparent;
+      border-bottom: 0px solid transparent;
+    }
+  }
+
+  &__list__item__reset__arrow {
+    display: inline-block;
+    position: absolute;
+    right: calc(100% + .2em);
+    height: 40px;
+    width: 40px;
+
+    border: .2em solid transparent;
+    border-top-color: $primaryWhite;
+    border-left-color: $primaryWhite;
+    border-bottom-color: $primaryWhite;
+    border-right-color: transparent;
+    border-radius: 50%;
+
+    transform: rotate(15deg);
+    transition: all .4s ease-in-out;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: -0.1em;
+      left: 80%;
+      height: 0;
+      width: 0;
+      
+      border-left: .3em solid $primaryWhite;
+      border-top: .3em solid transparent;
+      border-bottom: .3em solid transparent;
+      
+      transform: rotate(45deg);
+      transition: all .4s ease-in-out;
+    }
+  }
+}

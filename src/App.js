@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Link, NavLink } from 'react-router-dom';
-import './App.css';
+import './style/style.css';
 
 import AppHome from './AppHome.js';
 import AppGameBoard from './AppGameBoard.js';
@@ -9,10 +9,10 @@ import AppLose from './AppLose.js';
 
 const App = () => {
   // states:
-    // matched cards count
-    // timer count down?
-    // pokemonListArray
+  // number of cards for the game (difficulty feature in the future):
   const [cardsAmount, setCardsAmount] = useState(20);
+  // matched cards count
+  // timer count down?
 
   // every time timer hits 0, force change page to lose
 

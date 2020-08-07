@@ -1,0 +1,39 @@
+::selection { color: turquoise; }
+:focus {@include focusState();}
+html {
+  scroll-behavior: smooth; 
+  // background: url(../../assets/pokeballs.jpg);
+}
+
+body {background: rgba(12, 10, 10, 0.9);}
+img {display: block;}
+a {text-decoration: none;}
+
+ul, ol, li {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+button {
+  padding: 0;
+  border: none;
+  margin: 0;
+  background: none;
+}
+
+a, p {@include fontSize(36);}
+
+.wrapper {
+  max-width: calc( #{$squareCardSize} * 5 + 120px);
+  width: 80%;
+  margin: 0 auto;
+}
+
+.wrapperFooter {
+  @include flexCenter();
+  flex-direction: column;
+  max-width: 1200px;
+  width: 80%;
+  margin: 0 auto;
+}

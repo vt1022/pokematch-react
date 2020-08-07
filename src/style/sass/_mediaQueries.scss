@@ -1,0 +1,158 @@
+// learned that I should put media queries in their respective .scss files in the middle of this project.
+// will start doing this in the next project.
+@media (max-width: 870px) {
+  $squareCardSize: 120px;
+  .wrapper {
+    max-width: calc( #{$squareCardSize} * 4 + 120px );
+    width: 90%;
+  }
+
+  .header {
+    padding: 10px 20px 0;
+  }
+
+  .main {
+    &__cards-container__card {
+      flex: 0 1 $squareCardSize;
+      height: $squareCardSize;
+        
+      &:hover,
+      &:focus-within {
+        filter: drop-shadow(-2em 1em 1em rgba(12, 10, 10, 0.8));
+      }
+    }
+  }
+}
+
+@media (max-width: 695px) {
+  $squareCardSize: 95px;
+  .wrapper {
+    width: 100%;
+  }
+
+  .header {
+    &__list {
+      padding-left: 20px;
+
+      &__item__timer {width: 60px;}
+
+      &__item__timer,
+      &__item__reset span {
+        @include fontSize(24);
+      }
+    
+      &__item__reset__arrow {
+        height: 25px;
+        width: 25px;
+    
+        &::before {top: -0.2em;}
+      }
+    }
+  }
+
+  .main {
+    &__cards-container__card {
+        flex: 0 1 $squareCardSize;
+        height: $squareCardSize;
+
+      &:hover,
+      &:focus-within {
+        filter: drop-shadow(-1em .5em 1em rgba(12, 10, 10, 0.8));
+      }
+    }
+  }
+
+  .footer__landing__welcome p {
+    @include fontSize(20);
+    line-height: 20 * 1.6px;
+  }
+}
+
+@media (max-width: 585px) {
+  $squareCardSize: 85px;
+  .main {
+    &__cards-container {
+      &__card {
+        flex: 0 1 $squareCardSize;
+        height: $squareCardSize;
+        margin: 0.1em;
+      }
+    }
+  }
+
+  .footer__landing {
+    
+    &__welcome {
+      padding: 22px 7px 17px 7px;
+      border-left: 7px solid #000;
+      border-right: 7px solid #000;
+      
+      // before and afters to build the outer border
+      &::before, &::after {
+        width: calc(100% + 14px);
+        left: -7px;
+      }
+
+      &::before {
+        top: -7px;
+        border-bottom: 7px solid #000;
+        border-left: 7px solid transparent;
+        border-right: 7px solid transparent;
+      }
+
+      &::after {
+        bottom: -12px;
+        border-top: 12px solid #000;
+        border-left: 7px solid transparent;
+        border-right: 7px solid transparent;
+      }
+
+      p {
+        @include fontSize(16);
+        line-height: 16 * 1.6px;
+
+        padding: 7px;
+        padding-bottom: 20px;
+        border-left: 7px solid #000;
+        border-right: 7px solid #000;
+
+        // before and afters to build inner border
+        &::before, &::after {
+          width: calc(100% + 14px);
+          left: -7px;
+        }
+  
+        &::before {
+          top: -12px;
+          border-bottom: 12px solid #000;
+          border-left: 12px solid transparent;
+          border-right: 12px solid transparent;
+        }
+  
+        &::after {
+          bottom: -7px;
+          border-top: 7px solid #000;
+          border-left: 7px solid transparent;
+          border-right: 7px solid transparent;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  $squareCardSize: 70px;
+  .main {
+    &__cards-container__card {
+      flex: 0 1 $squareCardSize;
+      height: $squareCardSize;
+
+      &:hover,
+      &:focus-within {
+        transform: translate(4px, -4px) rotateY(15deg);
+        filter: drop-shadow(-1em .2em 1em rgba(12, 10, 10, 0.8));
+        z-index: 2;
+      }
+    }
+  }
+}
