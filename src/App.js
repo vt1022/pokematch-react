@@ -11,14 +11,14 @@ const App = () => {
   // states:
   // number of cards for the game (difficulty feature in the future):
   const [cardsAmount, setCardsAmount] = useState(20);
-  // matched cards count
-  // timer count down?
+
 
   // every time timer hits 0, force change page to lose
 
   return (
     <Router>
       <div className="App">
+
         <Route exact path='/' component={AppHome} />
         <Route path='/game' component={() => <AppGameBoard cardsAmount={cardsAmount} />} />
         <Route path='/win' component={AppWin} />
