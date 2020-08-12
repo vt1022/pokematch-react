@@ -277,11 +277,8 @@ html {
 
 html {
   scroll-behavior: smooth;
-  background: url(../assets/pokeballs.jpg);
-}
-
-body {
-  background: rgba(12, 10, 10, 0.9);
+  background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.75)), to(rgba(0, 0, 0, 0.75))), url(../assets/pokeballs.jpg);
+  background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url(../assets/pokeballs.jpg);
 }
 
 img {
