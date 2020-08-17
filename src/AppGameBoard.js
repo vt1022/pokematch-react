@@ -1,58 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import Axios from 'axios';
 import { Link, NavLink } from 'react-router-dom';
 
 import fisherYatesShuffle from './functions/fisherYatesShuffle.js';
 import Timer from './components/Timer.js'
 
 const AppGameBoard = (props) => {
-  // cards list
-  const [pokemonList, setPokemonList] = useState([]);
+  const {pokemonFullList, cardsAmount} = props;
   // timer count down
   const [timerCount, setTimerCount] = useState(40);
   // matched cards count
   const [matchedPairs, setMatchedPairs] = useState(0);
-  // api loading
-  // use loading to set buffering animation
-  const [loading, setLoading] = useState(true);
+  // trimmed list for game
+  const [gameCards, setGameCards] = useState([]);
   
-  
+
   useEffect(() => {
-    // Axios to pokeAPI and store shuffled and spliced pokemon list in state:
-    let source = Axios.CancelToken.source();
-    const pokemons = [];
-
-    const getPokemons = async () => {
-
-      try {
-        // get all the pokemon names and image urls
-        for (let i = 1; i < 152; i++) {
-          const pokemon = await Axios.get(`https://pokeapi.co/api/v2/pokemon/${i}`, {
-            cancelToken: source.token
-          });
-          const {id, name, sprites} = pokemon.data;
-          pokemons.push({id, name, sprites});
-          }
-        // shuffle the pokemons:
-        fisherYatesShuffle(pokemons);
-        // take the first x / 2 pokemon for the cards:
-        setPokemonList(pokemons.splice(0, props.cardsAmount / 2));
-
-      } catch(error) {
-        if (Axios.isCancel(error)) {
-          console.log('request cancelled');
-        } else {
-          throw error;
-        }
-      }
-      
-    }
-    
-    getPokemons();
-    // cleanup:
-    return () => source.cancel();
+    fisherYatesShuffle(pokemonFullList);
+    setGameCards(pokemonFullList.splice(0, cardsAmount / 2));
   }, []);
-  
 
   useEffect(() => {
     // always rendering timer:
@@ -99,7 +64,7 @@ const AppGameBoard = (props) => {
 
       <h1>PokeMatch Game Board</h1>
       {
-        pokemonList.map((pokemon) => <li key={pokemon.id}><p>{pokemon.name}</p></li>)
+        gameCards.map((pokemon) => <li key={pokemon.id}><p>{pokemon.name}</p></li>)
       }
 
 
