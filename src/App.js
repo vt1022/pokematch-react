@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Link, NavLink } from 'react-router-dom';
 import './style/style.css';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Link, NavLink, Switch } from 'react-router-dom';
 import Axios from 'axios';
 
 import AppHome from './AppHome.js';
@@ -22,7 +22,7 @@ const App = () => {
     const getPokemons = async () => {
       try {
         // get all the pokemon names and image urls
-        for (let i = 1; i < 152; i++) {
+        for (let i = 1; i < 152; i++) { // i = number of pokemon
           const pokemon = await Axios.get(
             `https://pokeapi.co/api/v2/pokemon/${i}`, 
             {cancelToken: source.token}
@@ -49,7 +49,6 @@ const App = () => {
   return (
     <Router>
       <div className="App">
-
         <Route exact path='/' component={() => <AppHome cardsAmount={cardsAmount} />} />
         <Route path='/game' component={() => <AppGameBoard pokemonFullList={pokemonFullList} cardsAmount={cardsAmount} />} />
         <Route path='/win' component={AppWin} />

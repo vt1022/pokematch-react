@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Redirect, Link, NavLink } from 'react-router-dom';
 
 import fisherYatesShuffle from './functions/fisherYatesShuffle.js';
 import Timer from './components/Timer.js'
+import imgPokeball from './assets/cardBack.png';
 
 const AppGameBoard = (props) => {
   const {pokemonFullList, cardsAmount} = props;
@@ -13,31 +14,54 @@ const AppGameBoard = (props) => {
   // trimmed list for game
   const [gameCards, setGameCards] = useState([]);
   
+  // pokemon cards html:
+  const displayCards = (pokemon) => {
+    const {name, sprites} = pokemon;
+    return (
+      <div class="main__cards-container__card">
+        <button class="main__cards-container__inner" tabindex="0" aria-label={name}>
+          <div class="main__cards-container__card__front">
+            <img src={imgPokeball} alt="pokeball" />
+          </div>
+          <div class="main__cards-container__card__back">
+            <img src={sprites.front_default} alt={name} class="main__cards-container__card__image" />
+          </div>
+        </button>
+      </div>
+    )
+  }
 
   useEffect(() => {
-    fisherYatesShuffle(pokemonFullList);
-    setGameCards(pokemonFullList.splice(0, cardsAmount / 2));
+    // take the first x amount of cards from the shuffled full list:
+    const cards = fisherYatesShuffle(pokemonFullList).splice(0, cardsAmount / 2);
+    // double those cards:
+    cards.push(...cards);
+    // shuffle the doubled array:
+    fisherYatesShuffle(cards);
+    // set cards after full shuffle:
+    setGameCards(cards);
   }, []);
 
   useEffect(() => {
     // always rendering timer:
-    const timer = setTimeout(() => {
-      setTimerCount(timerCount-1);
-    }, 1000);
-  
-    if (matchedPairs === props.cardsAmount / 2) {
+    const timer = setTimeout(() => setTimerCount(timerCount-1), 1000);
+    // clear timer on win / lose:
+    if (timerCount === 0 || matchedPairs === props.cardsAmount / 2) {
       clearInterval(timer);
-      // ************************ move to AppWin;
-    }
-
-    if (timerCount === 0) {
-      clearInterval(timer);
-      // ************************ move to AppLose;
     }
     // clear on unmount:
     return () => clearInterval(timer);
   });
   
+  
+  // if all cards are matched:
+  if (matchedPairs === props.cardsAmount / 2) {
+    return <Redirect to="/win" />
+  }
+  // if time runs out:
+  if (timerCount === 0) {
+    // return <Redirect to="/lose" /> // remove for testing
+  }
 
   return (
     <div className="AppGameBoard">
@@ -63,9 +87,14 @@ const AppGameBoard = (props) => {
 
 
       <h1>PokeMatch Game Board</h1>
-      {
-        gameCards.map((pokemon) => <li key={pokemon.id}><p>{pokemon.name}</p></li>)
-      }
+
+      <div class="wrapper">
+        <main class="main">
+          <section class="main__cards-container">
+            {gameCards.map(pokemon => displayCards(pokemon))}
+          </section>
+        </main>
+      </div>
 
 
     </div>
