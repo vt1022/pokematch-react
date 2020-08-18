@@ -3,7 +3,7 @@ import { Redirect, Link, NavLink } from 'react-router-dom';
 
 import fisherYatesShuffle from './functions/fisherYatesShuffle.js';
 import Timer from './components/Timer.js'
-import imgPokeball from './assets/cardBack.png';
+import FlipCard from './components/FlipCard.js'
 
 const AppGameBoard = (props) => {
   const {pokemonFullList, cardsAmount} = props;
@@ -15,21 +15,7 @@ const AppGameBoard = (props) => {
   const [gameCards, setGameCards] = useState([]);
   
   // pokemon cards html:
-  const displayCards = (pokemon) => {
-    const {name, sprites} = pokemon;
-    return (
-      <div class="main__cards-container__card">
-        <button class="main__cards-container__inner" tabindex="0" aria-label={name}>
-          <div class="main__cards-container__card__front">
-            <img src={imgPokeball} alt="pokeball" />
-          </div>
-          <div class="main__cards-container__card__back">
-            <img src={sprites.front_default} alt={name} class="main__cards-container__card__image" />
-          </div>
-        </button>
-      </div>
-    )
-  }
+  const displayCards = pokemon => <FlipCard pokemon={pokemon} />;
 
   useEffect(() => {
     // take the first x amount of cards from the shuffled full list:
