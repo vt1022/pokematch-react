@@ -9,23 +9,39 @@ const AppGameBoard = (props) => {
   const {pokemonFullList, cardsAmount} = props;
   // timer count down
   const [timerCount, setTimerCount] = useState(40);
-  // matched cards count
-  const [matchedPairs, setMatchedPairs] = useState(0);
+  // clicks on the cards
+  const [clickCount, setClickCount] = useState(0) ;
   // trimmed list for game
   const [gameCards, setGameCards] = useState([]);
-  
+  // matched cards count:
+  const [matchedPairs, setMatchedPairs] = useState(0);
+  const [clickedCards, setClickedCards] = useState([]);
+
   // pokemon cards html:
-  const displayCards = pokemon => <FlipCard pokemon={pokemon} />;
+  const displayCards = pokemon => <FlipCard pokemon={pokemon} handleCardClick={handleCardClick} />;
+  // update the click counter every time a flip card is clicked,
+  // and add clicked card to array:
+  const handleCardClick = (clickedPokeId) => {
+    clickedCards.unshift(clickedPokeId);
+    const newClickedCards = clickedCards.slice(0, 1);
+    
+    setClickedCards(newClickedCards);
+    setClickCount(clickCount+1);
+    console.log(clickedCards);
+
+    // every even clicks, compare the clicked cards
+    if ((clickCount + 1) % 2 === 0) {
+      console.log('compare now');
+    }
+  }
 
   useEffect(() => {
     // take the first x amount of cards from the shuffled full list:
     const cards = fisherYatesShuffle(pokemonFullList).splice(0, cardsAmount / 2);
     // double those cards:
     cards.push(...cards);
-    // shuffle the doubled array:
-    fisherYatesShuffle(cards);
     // set cards after full shuffle:
-    setGameCards(cards);
+    setGameCards(fisherYatesShuffle(cards));
   }, []);
 
   useEffect(() => {
@@ -76,6 +92,8 @@ const AppGameBoard = (props) => {
 
       <div class="wrapper">
         <main class="main">
+          {/* testing here ******************* */}
+          {clickCount}
           <section class="main__cards-container">
             {gameCards.map(pokemon => displayCards(pokemon))}
           </section>
