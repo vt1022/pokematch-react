@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 
-import fisherYatesShuffle from './functions/fisherYatesShuffle.js';
 
 const AppHome = (props) => {
 

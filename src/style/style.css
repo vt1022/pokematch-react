@@ -530,8 +530,6 @@ a, p {
   border-radius: 0.5rem;
   -webkit-transition: all 0.6s ease;
   transition: all 0.6s ease;
-  -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
 }
 
 .main__cards-container__card__front {

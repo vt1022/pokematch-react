@@ -2,21 +2,20 @@ import React, { useState, useEffect } from 'react';
 
 import imgPokeball from '../assets/cardBack.png';
 
-const FlipCard = (props) => {
-  const {handleCardClick, pokemon} = props;
+const FlipCard = ({ handleCardClick, pokemon }) => {
   const {name, id, sprites} = pokemon;
-  // states:
+
   const [isFaceUp, setIsFaceUp] = useState(false);
+  const [isMatch, setIsMatch] = useState(false);
 
+  // matching cards:
+  const match = isMatch ? 'matched' : '';
   // flipping cards:
-  const flipUp = isFaceUp ? `flip-card` : ``;
+  const flipUp = isFaceUp ? 'flip-card' : '';
   const handleClick = e => {
-    // save clicked card to array and compare previous card:
-    const clickedPokeId = e.currentTarget.dataset.id;
-
-
     setIsFaceUp(true);
-    handleCardClick(clickedPokeId); // update clicks state in AppGameBoard
+    // pass clicks and clicked cards data to AppGameBoard:
+    handleCardClick(e.currentTarget);
   }
 
 
@@ -33,7 +32,7 @@ const FlipCard = (props) => {
         <div class="main__cards-container__card__front">
           <img src={imgPokeball} alt="pokeball" />
         </div>
-        <div class="main__cards-container__card__back">
+        <div class={`main__cards-container__card__back ${match}`}>
           <img src={sprites.front_default} alt={name} class="main__cards-container__card__image" />
         </div>
       </button>

@@ -1,10 +1,10 @@
 import React from 'react';
 
-const Timer = (props) => {
+const Timer = ({ timerCount }) => {
 
   return(
-    <p className={props.class}>
-      {props.timerCount}
+    <p className="header__list__item__timer">
+      {timerCount}
     </p>
   )
 }

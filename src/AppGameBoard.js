@@ -1,15 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Redirect, Link, NavLink } from 'react-router-dom';
 
-import fisherYatesShuffle from './functions/fisherYatesShuffle.js';
 import Timer from './components/Timer.js'
 import FlipCard from './components/FlipCard.js'
 
-const AppGameBoard = (props) => {
-  const {pokemonFullList, cardsAmount} = props;
-  // timer count down
+const AppGameBoard = ({ pokemonFullList, cardsAmount }) => {
+
+  // timer count down, clicks count on the cards
   const [timerCount, setTimerCount] = useState(40);
-  // clicks on the cards
   const [clickCount, setClickCount] = useState(0) ;
   // trimmed list for game
   const [gameCards, setGameCards] = useState([]);
@@ -17,23 +15,44 @@ const AppGameBoard = (props) => {
   const [matchedPairs, setMatchedPairs] = useState(0);
   const [clickedCards, setClickedCards] = useState([]);
 
+
+  // shuffle array algorithm:
+  const fisherYatesShuffle = (a) => {
+    let j, x, i;
+    for (i = a.length - 1; i > 0; i--) {
+      j = Math.floor(Math.random() * (i + 1));
+      x = a[i];
+      a[i] = a[j];
+      a[j] = x;
+    }
+    return a;
+  }
+
   // pokemon cards html:
-  const displayCards = pokemon => <FlipCard pokemon={pokemon} handleCardClick={handleCardClick} />;
+  const displayCards = pokemon => {
+    return (
+      <FlipCard
+        pokemon={pokemon} 
+        handleCardClick={handleCardClick}
+      />
+      // make pokemon object and push each obj into an array. take info from that array to put into flipcard. data like flipped up, matched.
+    )
+  }
+
   // update the click counter every time a flip card is clicked,
   // and add clicked card to array:
-  const handleCardClick = (clickedPokeId) => {
-    clickedCards.unshift(clickedPokeId);
-    const newClickedCards = clickedCards.slice(0, 1);
-    
-    setClickedCards(newClickedCards);
+  const handleCardClick = clickedPokeButton => {
+    const clickedCard = clickedPokeButton.dataset.id;
+    // cut down array to just 2 cards needed for matching comparison:
+    setClickedCards([clickedCard, ...clickedCards].slice(0, 2));
     setClickCount(clickCount+1);
-    console.log(clickedCards);
-
-    // every even clicks, compare the clicked cards
-    if ((clickCount + 1) % 2 === 0) {
-      console.log('compare now');
-    }
   }
+  // changed isMatch state in FlipCard
+  const handleMatched = () => {
+
+
+  }
+
 
   useEffect(() => {
     // take the first x amount of cards from the shuffled full list:
@@ -45,19 +64,30 @@ const AppGameBoard = (props) => {
   }, []);
 
   useEffect(() => {
-    // always rendering timer:
     const timer = setTimeout(() => setTimerCount(timerCount-1), 1000);
     // clear timer on win / lose:
-    if (timerCount === 0 || matchedPairs === props.cardsAmount / 2) {
+    if (timerCount === 0 || matchedPairs === cardsAmount / 2) {
       clearInterval(timer);
     }
     // clear on unmount:
     return () => clearInterval(timer);
   });
   
+  useEffect(() => {
+    // every even clicks, compare the clicked cards
+    if (clickedCards.length === 2 && clickCount % 2 === 0) {
+      if (clickedCards[0] === clickedCards[1]) {
+        handleMatched();
+        console.log('matched!');
+      } else if (clickedCards[0] !== clickedCards[1]) {
+        console.log('not matched');
+      }
+    }
+  }, [clickedCards]);
   
+
   // if all cards are matched:
-  if (matchedPairs === props.cardsAmount / 2) {
+  if (matchedPairs === cardsAmount / 2) {
     return <Redirect to="/win" />
   }
   // if time runs out:
@@ -81,7 +111,7 @@ const AppGameBoard = (props) => {
             </li>
             {/* timer */}
             <li className="header__list__item">
-              <Timer class="header__list__item__timer" timerCount={timerCount} />
+              <Timer timerCount={timerCount} />
             </li>
           </ul>
         </div>
